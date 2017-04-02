@@ -1,2 +1,2 @@
 server:
-  context-path: /poc-aop
+  context-path: /sample-aop
