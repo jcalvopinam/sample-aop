@@ -4,6 +4,7 @@ import com.jcalvopinam.model.Person;
 import com.jcalvopinam.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,9 +22,9 @@ public class PersonController {
     @Autowired
     PersonService personService;
 
-    @RequestMapping(value = "/add", method = RequestMethod.GET, produces = "text/plain")
+    @RequestMapping(value = "/default-data", method = RequestMethod.GET, produces = "text/plain")
     @ResponseBody
-    public String add() {
+    public String find() {
         personService.setName("Juanca");
         Person person = personService.add(personService.getName());
         try {
@@ -32,6 +33,13 @@ public class PersonController {
             System.out.println("EmptyStackException: " + ese.getMessage());
         }
         return String.format("Welcome!, %s", person.getName());
+    }
+
+    @RequestMapping(value = "{name}/add", method = RequestMethod.PUT)
+    @ResponseBody
+    public String add(@PathVariable("name") String name) {
+        personService.setName(name);
+        return String.format("Welcome!, %s", personService.getName());
     }
 
 }
